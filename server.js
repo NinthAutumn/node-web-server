@@ -2,22 +2,30 @@ const express = require('express');
 const hbs = require('hbs');
 var app = express();
 
+hbs.registerPartials(__dirname + "/views/partials")
+
 app.use(express.static(__dirname + "/public"));
 app.set('view engine', 'hbs')
 
+hbs.registerHelper('getCurrentYear', () => {
+  return new Date().getFullYear()
+})
+
+hbs.registerHelper('screamIt', (text) => {
+  return text.toUppercase();
+})
 app.get('/', (req, res) => {
   // res.send('<h1>Hello Express!</h1>');
-  res.send({
-    name: "name",
-    likes: [
-      "biking",
-      "dogs"
-    ]
-  })
+  res.render("about.hbs", {
+    pagetitle: "not about page",
+    welcomeMessage: "sup sup sup"
+  });
 });
 
 app.get("/about", (req, res) => {
-  res.send("about page");
+  res.render("about.hbs", {
+    pagetitle: "About page",
+  });
 });
 
 app.get("/bad", (req, res) => {
